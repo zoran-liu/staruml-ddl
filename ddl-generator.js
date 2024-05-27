@@ -119,6 +119,9 @@ class DDLGenerator {
     if (elem.primaryKey || !elem.nullable) {
       line += ' NOT NULL'
     }
+    if (elem.comment) {
+      line += ` comment '${elem.comment}'`
+    }
     return line
   }
 
@@ -229,7 +232,12 @@ class DDLGenerator {
     }
 
     codeWriter.outdent()
-    codeWriter.writeLine(');')
+    var end = ')'
+    if (elem.comment) {
+      end += ` comment '${elem.comment}'`
+    }
+    end += ";"
+    codeWriter.writeLine(end)
     codeWriter.writeLine()
   }
 
